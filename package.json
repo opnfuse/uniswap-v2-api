@@ -11,6 +11,9 @@
   },
   "author": "opnfuse",
   "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2"
+  },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.95",
     "@typescript-eslint/eslint-plugin": "^5.22.0",

@@ -1,5 +1,8 @@
+org: opnfuse
+app: uniswap-v2-api
+
 service: uniswap-v2-api
-frameworkVersion: "3"
+frameworkVersion: '3'
 
 plugins:
   - serverless-plugin-typescript
@@ -8,11 +11,12 @@ plugins:
 provider:
   name: aws
   runtime: nodejs14.x
+  stage: dev
 
 functions:
-  hello:
-    handler: app/handler.hello
+  uniswapFactory:
+    handler: app/handler.uniswapFactory
     events:
       - httpApi:
-          path: /
-          method: get
+          method: GET
+          path: /uniswapFactory
