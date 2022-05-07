@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getEthPrice } from "../utils/ethPrice";
 
 const API_URL = "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2"
 
@@ -42,6 +43,12 @@ export const getToken = async (id: string) => {
   // If the response is null then the token address is not found
   if (response === null) {
     throw new Error("Token not found")
+  }
+
+  const price = await getEthPrice();
+
+  if (typeof price === 'string') {
+    response.derivedUSD = String(parseFloat(response.derivedETH) * parseFloat(price));
   }
 
   return response;
