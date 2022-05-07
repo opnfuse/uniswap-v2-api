@@ -26,3 +26,31 @@ functions:
       - httpApi:
           method: GET
           path: /token/{id}
+
+  pair:
+    handler: app/handler.pair
+    events:
+      - httpApi:
+          method: GET
+          path: /pair/{id}
+
+  transaction:
+    handler: app/handler.transaction
+    events:
+      - httpApi:
+          method: GET
+          path: /transaction/{id}
+
+  swap:
+    handler: app/handler.swap
+    events:
+      - httpApi:
+          method: GET
+          path: /swap/{id}
+
+  bundle:
+    handler: app/handler.bundle
+    events:
+      - httpApi:
+          method: GET
+          path: /ethPrice

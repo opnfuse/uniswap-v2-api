@@ -47,7 +47,9 @@ export const getToken = async (id: string) => {
 
   const price = await getEthPrice();
 
+  // If the price is string then the price was retrieved successfully
   if (typeof price === 'string') {
+    // Calculating the price in USD based in the eth price and the derivedETH price of the token
     response.derivedUSD = String(parseFloat(response.derivedETH) * parseFloat(price));
   }
 
