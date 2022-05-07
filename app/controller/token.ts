@@ -2,22 +2,24 @@ import axios from "axios";
 
 const API_URL = "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2"
 
-export const getUniswapFactory = async () => {
+export const getToken = async (id: string) => {
   // The payload to send to the GraphQL API
   const payload = {
     query: `{
-      uniswapFactory(id:"0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f") {
+      token(id:"${id}") {
         id
-        pairCount
-        totalVolumeUSD
-        totalVolumeETH
+        symbol
+        name
+        decimals
+        totalSupply
+        tradeVolume
+        tradeVolumeUSD
         untrackedVolumeUSD
-        totalLiquidityUSD
-        totalLiquidityETH
         txCount
+        totalLiquidity
+        derivedETH
       }
-      }
-      `
+      }`
   }
 
   // Converting the payload to JSON
@@ -31,17 +33,16 @@ export const getUniswapFactory = async () => {
     )
     .then((res) => {
       // Returning the response data
-      return res.data.data.uniswapFactory;
+      return res.data.data.token;
     })
     .catch((err) => {
       throw err
     });
 
-  // If the response is null then the uniswap factory address changed
+  // If the response is null then the token address is not found
   if (response === null) {
-    throw new Error("Uniswap Factory not found")
+    throw new Error("Token not found")
   }
 
   return response;
 }
-
