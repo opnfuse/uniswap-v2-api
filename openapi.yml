@@ -5,7 +5,7 @@ info:
   version: 1.0.0
 
 servers:
-  - url: localhost:3000,
+  - url: localhost:3000
     description: Local Server
   - url: https://4cfpi1zmk7.execute-api.us-east-1.amazonaws.com,
     description: Development Server
@@ -67,6 +67,220 @@ paths:
                     example: 'Token Retrieved Successfully'
                   data:
                     $ref: '#/components/schemas/Token'
+        404:
+          description: Token Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Not Found'
+                  message:
+                    type: string
+                    example: 'Token Not Found'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Internal Server Error'
+                  message:
+                    type: string
+                    example: 'Internal Server Error'
+
+  /pair/{id}:
+    get:
+      summary: Get the pair info
+      description: Return the info of the Par by the address
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The address of the Pair
+          schema:
+            type: string
+            example: '0xb011eeaab8bf0c6de75510128da95498e4b7e67f'
+      responses:
+        200:
+          description: A JSON object with the Pair info
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Pair Retrieved Successfully'
+                  data:
+                    $ref: '#/components/schemas/Pair'
+        404:
+          description: Transaction Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Not Found'
+                  message:
+                    type: string
+                    example: 'Pair Not Found'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Internal Server Error'
+                  message:
+                    type: string
+                    example: 'Internal Server Error'
+
+  /transaction/{id}:
+    get:
+      summary: Get the transaction info
+      description: Return the info of the Transaction by the address
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The address of the Transaction
+          schema:
+            type: string
+            example: '0xd259f882f051c3ef49a6f79e0a634be47ff643513c418ca753c93dcca8d4d675'
+      responses:
+        200:
+          description: A JSON object with the Transaction info
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Transaction Retrieved Successfully'
+                  data:
+                    $ref: '#/components/schemas/Transaction'
+        404:
+          description: Transaction Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Not Found'
+                  message:
+                    type: string
+                    example: 'Transaction Not Found'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Internal Server Error'
+                  message:
+                    type: string
+                    example: 'Internal Server Error'
+
+  /swap/{id}:
+    get:
+      summary: Get the swap info
+      description: Return the info of the Swap by the address
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The address of the Swap
+          schema:
+            type: string
+            example: '0xd259f882f051c3ef49a6f79e0a634be47ff643513c418ca753c93dcca8d4d675-0'
+      responses:
+        200:
+          description: A JSON object with the Swap info
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Swap Retrieved Successfully'
+                  data:
+                    $ref: '#/components/schemas/Swap'
+        404:
+          description: Swap Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Not Found'
+                  message:
+                    type: string
+                    example: 'Swap Not Found'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Internal Server Error'
+                  message:
+                    type: string
+                    example: 'Internal Server Error'
+
+  /ethPrice:
+    get:
+      summary: Get the ETH Price
+      description: Return the current eth price in uniswap v2
+      responses:
+        200:
+          description: A JSON object with all the info
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'EHT Price Retrieved Successfully'
+                  data:
+                    type: string
+                    example: '2536.445548088727890034690806827217'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Internal Server Error'
+                  message:
+                    type: string
+                    example: 'Internal Server Error'
 
 components:
   schemas:
@@ -289,32 +503,46 @@ components:
       properties:
         id:
           type: string
+          description: transaction hash plus index in Transaction swap array
         transaction:
           type: object
+          description: reference to transaction swap was included in
           properties:
             id:
               type: string
+              description: Ethereum transaction hash
             blockNumber:
               type: string
+              description: block transaction was mined in
             timestamp:
               type: string
+              description: timestamp for transaction
         timestamp:
           type: string
+          description: timestamp of swap, used for sorted lookups
         pair:
           $ref: '#/components/schemas/Pair'
         sender:
           type: string
+          description: address that initiated the swap
         amount0In:
           type: string
+          description: amount of token0 sold
         amount1In:
           type: string
+          description: amount of token1 sold
         amount0Out:
           type: string
+          description: amount of token0 received
         amount1Out:
           type: string
+          description: amount of token1 received
         to:
           type: string
+          description: recipient of output tokens
         logIndex:
           type: string
+          description: event index within transaction
         amountUSD:
           type: string
+          description: derived amount of tokens sold in USD
