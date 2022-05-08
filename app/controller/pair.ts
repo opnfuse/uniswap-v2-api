@@ -38,6 +38,21 @@ export const getPair = async (id: string) => {
             totalLiquidity
             derivedETH
         }
+        reserve0
+        reserve1
+        totalSupply
+        reserveETH
+        reserveUSD
+        trackedReserveETH
+        token0Price
+        token1Price
+        volumeToken0
+        volumeToken1
+        volumeUSD
+        untrackedVolumeUSD
+        txCount
+        createdAtTimestamp
+        createdAtBlockNumber
       }
     }`
   }

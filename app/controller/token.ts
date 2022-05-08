@@ -12,7 +12,6 @@ export const getToken = async (id: string) => {
         symbol
         name
         decimals
-        totalSupply
         tradeVolume
         tradeVolumeUSD
         untrackedVolumeUSD

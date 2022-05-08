@@ -1,0 +1,320 @@
+openapi: 3.0.3
+info:
+  title: unsiwap-v2-api,
+  description: A REST API of Uniswap V2
+  version: 1.0.0
+
+servers:
+  - url: localhost:3000,
+    description: Local Server
+  - url: https://4cfpi1zmk7.execute-api.us-east-1.amazonaws.com,
+    description: Development Server
+
+paths:
+  /uniswapFactory:
+    get:
+      summary: Get the general info
+      description: Return the info like pair count of Uniswap V2
+      responses:
+        200:
+          description: A JSON object with all the info
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Uniswap Factory Retrieved Successfully'
+                  data:
+                    $ref: '#/components/schemas/UniswapFactory'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Internal Server Error'
+                  message:
+                    type: string
+                    example: 'Internal Server Error'
+
+  /token/{id}:
+    get:
+      summary: Get the token info
+      description: Return the info of the Token by the address
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The address of the Token
+          schema:
+            type: string
+            example: '0x95ad61b0a150d79219dcf64e1e6cc01f0b64c4ce'
+      responses:
+        200:
+          description: A JSON object with the Token info
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Token Retrieved Successfully'
+                  data:
+                    $ref: '#/components/schemas/Token'
+
+components:
+  schemas:
+    UniswapFactory:
+      type: object
+      properties:
+        id:
+          type: string
+          description: factory address
+        pairCount:
+          type: number
+          description: amount of pairs created by the Uniswap factory
+        totalVolumeUSD:
+          type: string
+          description: all time USD volume across all pairs (USD is derived)
+        totalVolumeETH:
+          type: string
+          description: all time volume in ETH across all pairs (ETH is derived)
+        untrackedVolumeUSD:
+          type: string
+          description: amount of token in USD traded all time across pairs (no minimum liquidity threshold)
+        totalLiquidityUSD:
+          type: string
+          description: total liquidity across all pairs stored as a derived USD amount
+        totalLiquidityETH:
+          type: string
+          description: total liquidity across all pairs stored as a derived ETH amount
+        txCount:
+          type: string
+          description: all time amount of transactions across all pairs
+
+      example:
+        id: '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f'
+        pairCount: 73630
+        totalVolumeUSD: '409768908506.1718494030631588267579'
+        totalVolumeETH: '279640451.6303232120071157422013905'
+        untrackedVolumeUSD: '273302847950431350586.4857896615157'
+        totalLiquidityUSD: '2296504937.925986690490435472503057'
+        totalLiquidityETH: '905098.1588672274620985666481072253'
+        txCount: '78984359'
+
+    Token:
+      type: object
+      properties:
+        id:
+          type: string
+          description: token address
+        symbol:
+          type: string
+          description: token symbol
+        name:
+          type: string
+          description: token name
+        decimals:
+          type: string
+          description: token decimals
+        tradeVolume:
+          type: string
+          description: amount of token traded all time across all pairs
+        tradeVolumeUSD:
+          type: string
+          description: amount of token in USD traded all time across pairs (only for tokens with liquidity above minimum threshold)
+        untrackedVolumeUSD:
+          type: string
+          description: amount of token in USD traded all time across pairs (no minimum liquidity threshold)
+        txCount:
+          type: string
+          description: amount of transactions all time in pairs including token
+        totalLiquidity:
+          type: string
+          description: total amount of token provided as liquidity across all pairs
+        derivedETH:
+          type: string
+          description: Price in ETH
+        derivedUSD:
+          type: string
+          description: Price in USD
+      example:
+        id: '0x95ad61b0a150d79219dcf64e1e6cc01f0b64c4ce'
+        symbol: 'SHIB'
+        name: 'SHIBA INU'
+        decimals: '18'
+        tradeVolume: '16119569642619902.98158971382362391'
+        tradeVolumeUSD: '8884706575.283613969044418162613431'
+        untrackedVolumeUSD: '8908418309.784799580023417577027726'
+        txCount: '1332603'
+        totalLiquidity: '153247286330.733047386048182207'
+        derivedETH: '0.000000007292950090772185583199954261382652'
+        derivedUSD: '0.000018669805263753963'
+
+    Pair:
+      type: object
+      properties:
+        id:
+          type: string
+          description: pair contract address
+        token0:
+          $ref: '#/components/schemas/Token'
+        token1:
+          $ref: '#/components/schemas/Token'
+        reserve0:
+          type: string
+          description: reserve of token0
+        reserve1:
+          type: string
+          description: reserve of token1
+        totalSupply:
+          type: string
+          description: total supply of liquidity token distributed to LPs
+        reserveETH:
+          type: string
+          description: total liquidity in pair stored as an amount of ETH
+        reserveUSD:
+          type: string
+          description: total liquidity amount in pair stored as an amount of USD
+        trackedReserveETH:
+          type: string
+          description: total liquidity with only tracked amount (see tracked amounts)
+        token0Price:
+          type: string
+          description: token0 per token1
+        token1Price:
+          type: string
+          description: token1 per token0
+        volumeToken0:
+          type: string
+          description: amount of token0 swapped on this pair
+        volumeToken1:
+          type: string
+          description: amount of token1 swapped on this pair
+        volumeUSD:
+          type: string
+          description: total amount swapped all time in this pair stored in USD (only tracked if USD liquidity is above minimum threshold)
+        untrackedVolumeUSD:
+          type: string
+          description: total amount swapped all time in this pair stored in USD, no minimum liquidity threshold
+        txCount:
+          type: string
+          description: all time amount of transactions on this pair
+        createdAtTimestamp:
+          type: string
+          description: timestamp contract was created
+        createdAtBlockNumber:
+          type: string
+          description: Ethereum block contract was created
+      example:
+        id: '0xb011eeaab8bf0c6de75510128da95498e4b7e67f'
+        reserve0: '243439.632683278576019089'
+        reserve1: '1076.995055194789944694'
+        totalSupply: '7786.526102297542406905'
+        reserveETH: '2153.990110389579889388'
+        reserveUSD: '5518141.816764146699574205411157115'
+        trackedReserveETH: '2153.990110389579889388'
+        token0Price: '226.0359799323767925649456493709761'
+        token1Price: '0.004424074434075363148661549218196303'
+        volumeToken0: '30173318.566697577202342677'
+        volumeToken1: '171193.174202946387776672'
+        volumeUSD: '477683213.1934360146560521347870745'
+        untrackedVolumeUSD: '558459748.9054445973259407154754356'
+        txCount: '80838'
+        createdAtTimestamp: '1647519443'
+        createdAtBlockNumber: '14403967'
+
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Ethereum transaction hash
+        blockNumber:
+          type: string
+          description: block transaction was mined in
+        timestamp:
+          type: string
+          description: timestamp for transaction
+        mints:
+          type: array
+          description: array of Mint events within the transaction, 0 or greater
+          items:
+            properties:
+              id:
+                type: string
+                description: Transaction hash plus index in the transaction mint array
+        burns:
+          type: array
+          description: array of Burn events within transaction, 0 or greater
+          items:
+            properties:
+              id:
+                type: string
+                description: Transaction hash plus index in the transaction burn array
+        swaps:
+          type: array
+          description: array of Swap events within transaction, 0 or greater
+          items:
+            properties:
+              id:
+                type: string
+                description: transaction hash plus index in Transaction swap array
+
+      example:
+        id: '0xd259f882f051c3ef49a6f79e0a634be47ff643513c418ca753c93dcca8d4d675'
+        blockNumber: '14724462'
+        timestamp: '1651852813'
+        burns:
+          items:
+            properties:
+              id: '0xd259f882f051c3ef49a6f79e0a634be47ff643513c418ca753c93dcca8d4d675-0'
+        mints:
+          items:
+            properties:
+              id: '0xd259f882f051c3ef49a6f79e0a634be47ff643513c418ca753c93dcca8d4d675-0'
+        swaps:
+          items:
+            properties:
+              id: '0xd259f882f051c3ef49a6f79e0a634be47ff643513c418ca753c93dcca8d4d675-0'
+
+    Swap:
+      type: object
+      properties:
+        id:
+          type: string
+        transaction:
+          type: object
+          properties:
+            id:
+              type: string
+            blockNumber:
+              type: string
+            timestamp:
+              type: string
+        timestamp:
+          type: string
+        pair:
+          $ref: '#/components/schemas/Pair'
+        sender:
+          type: string
+        amount0In:
+          type: string
+        amount1In:
+          type: string
+        amount0Out:
+          type: string
+        amount1Out:
+          type: string
+        to:
+          type: string
+        logIndex:
+          type: string
+        amountUSD:
+          type: string
