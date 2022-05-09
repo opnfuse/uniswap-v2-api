@@ -16,6 +16,7 @@ export const uniswapFactory: Handler = async (event: any) => {
       statusCode: 200,
       body: JSON.stringify(
         {
+          headers: { contentType: 'application/json' },
           message: 'Uniswap Factory Retrieved Successfully',
           data: res,
         },
@@ -34,6 +35,7 @@ export const uniswapFactory: Handler = async (event: any) => {
       statusCode: 500,
       body: JSON.stringify(
         {
+          headers: { contentType: 'application/json' },
           error: 'Internal Server Error',
           message: 'Internal Server Error',
         })
@@ -51,6 +53,7 @@ export const token: Handler = async (event: any) => {
     const response = {
       statusCode: 200,
       body: JSON.stringify({
+        headers: { contentType: 'application/json' },
         message: 'Token Retrieved Successfully',
         data: res,
       })
@@ -63,6 +66,7 @@ export const token: Handler = async (event: any) => {
       const response = {
         statusCode: 404,
         body: JSON.stringify({
+          headers: { contentType: 'application/json' },
           error: 'Not Found',
           message: 'Token not found',
         })
@@ -79,6 +83,7 @@ export const token: Handler = async (event: any) => {
       statusCode: 500,
       body: JSON.stringify(
         {
+          headers: { contentType: 'application/json' },
           error: 'Internal Server Error',
           message: 'Internal Server Error',
         })
@@ -97,6 +102,7 @@ export const pair: Handler = async (event: any) => {
     const response = {
       statusCode: 200,
       body: JSON.stringify({
+        headers: { contentType: 'application/json' },
         message: 'Pair Retrieved Successfully',
         data: res,
       })
@@ -109,6 +115,7 @@ export const pair: Handler = async (event: any) => {
       const response = {
         statusCode: 404,
         body: JSON.stringify({
+          headers: { contentType: 'application/json' },
           error: 'Not Found',
           message: 'Pair not found',
         })
@@ -143,6 +150,7 @@ export const transaction: Handler = async (event: any) => {
     const response = {
       statusCode: 200,
       body: JSON.stringify({
+        headers: { contentType: 'application/json' },
         message: 'Transaction Retrieved Successfully',
         data: res,
       })
@@ -155,6 +163,7 @@ export const transaction: Handler = async (event: any) => {
       const response = {
         statusCode: 404,
         body: JSON.stringify({
+          headers: { contentType: 'application/json' },
           error: 'Not Found',
           message: 'Transaction not found',
         })
@@ -171,6 +180,7 @@ export const transaction: Handler = async (event: any) => {
       statusCode: 500,
       body: JSON.stringify(
         {
+          headers: { contentType: 'application/json' },
           error: 'Internal Server Error',
           message: 'Internal Server Error',
         })
@@ -189,6 +199,7 @@ export const swap: Handler = async (event: any) => {
     const response = {
       statusCode: 200,
       body: JSON.stringify({
+        headers: { contentType: 'application/json' },
         message: 'Swap Retrieved Successfully',
         data: res,
       })
@@ -201,6 +212,7 @@ export const swap: Handler = async (event: any) => {
       const response = {
         statusCode: 404,
         body: JSON.stringify({
+          headers: { contentType: 'application/json' },
           error: 'Not Found',
           message: 'Swap not found',
         })
@@ -217,6 +229,7 @@ export const swap: Handler = async (event: any) => {
       statusCode: 500,
       body: JSON.stringify(
         {
+          headers: { contentType: 'application/json' },
           error: 'Internal Server Error',
           message: 'Internal Server Error',
         })
@@ -235,6 +248,7 @@ export const bundle: Handler = async (event: any) => {
     const response = {
       statusCode: 200,
       body: JSON.stringify({
+        headers: { contentType: 'application/json' },
         message: 'EHT Price Retrieved Successfully',
         data: res,
       })
@@ -250,6 +264,7 @@ export const bundle: Handler = async (event: any) => {
       statusCode: 500,
       body: JSON.stringify(
         {
+          headers: { contentType: 'application/json' },
           error: 'Internal Server Error',
           message: 'Internal Server Error',
         })
