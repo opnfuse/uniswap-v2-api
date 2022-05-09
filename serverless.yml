@@ -19,6 +19,9 @@ functions:
       - httpApi:
           method: GET
           path: /uniswapFactory
+          response:
+            headers:
+              Content-Type: application/json
 
   token:
     handler: app/handler.token
